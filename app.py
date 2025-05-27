@@ -27,7 +27,12 @@ GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions"
 groq_client = Groq(api_key=GROQ_API_KEY)
 
 # Path to your Firebase service account key JSON file
-cred = credentials.Certificate("serviceAccountKey.json")
+firebase_creds_json = os.getenv('FIREBASE_CREDENTIALS')
+
+firebase_creds_dict = json.loads(firebase_creds_json)
+
+cred = credentials.Certificate(firebase_creds_dict)
+
 firebase_admin.initialize_app(cred)
 
 db = firestore.client()
