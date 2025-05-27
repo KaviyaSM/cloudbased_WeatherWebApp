@@ -15,7 +15,7 @@ from dotenv import load_dotenv
 import os
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='public', static_url_path='')
 CORS(app, origins="http://127.0.0.1:5500") 
 
 OPENWEATHER_API_KEY = os.getenv("OPENWEATHER_API")
@@ -132,6 +132,10 @@ def generate_natural_reply(user_question, weather_data):
     )
 
     return response.choices[0].message.content.strip()
+
+@app.route('/')
+def index():
+    return app.send_static_file('register.html')
 
 @app.route('/api/chatbot', methods=['POST'])
 def chatbot():
